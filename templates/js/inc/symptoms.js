@@ -294,7 +294,7 @@ GIGO.identify_symptoms = function () {
     // (Otherwise, some Firefox plugin is screwing us again.)
     if (tests.test_dsmtu.status === "ok") {
         // Do we want to encourage IPv6?  Or acknowledge IPv6?
-        if (teredo || sixfour || (!GIGO.results.ipv6.ip)) {
+        if (teredo || (!GIGO.results.ipv6.ip)) {
           // Encourage the use of IPv6
           res.push("needs_ipv6");
         } else {
@@ -353,9 +353,6 @@ GIGO.identify_symptoms = function () {
         } else {
             res.push("teredo");
         }
-    }
-    if (sixfour) {
-        res.push("6to4");
     }
 
 
