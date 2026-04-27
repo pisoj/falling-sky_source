@@ -8,7 +8,7 @@ ifeq ($(PUBLISH),true)
 	@echo checking my hostname
 	hostname
 	@echo Checking to see what sites are up or down
-	./parse-sites --minimum 20
+	./parse-sites
 else
 	@echo Skipping sites up/down check
 endif  
