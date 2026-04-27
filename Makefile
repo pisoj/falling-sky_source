@@ -1,4 +1,4 @@
-build: templates/js/sites_parsed.js
+build::
 	go run github.com/falling-sky/fsbuilder@latest
 	echo 
 	echo
@@ -19,7 +19,7 @@ mtest: build
 upload:
 	cd translations && make crowdin-upload
 
-templates/js/sites_parsed.js:
+sites::
 	@echo Validating mirror sites | ./support/fold_start.sh $@
 	cd sites && make
 
