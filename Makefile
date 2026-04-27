@@ -1,4 +1,4 @@
-build::
+build: sites
 	go run github.com/falling-sky/fsbuilder@latest
 	echo 
 	echo

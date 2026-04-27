@@ -1,0 +1,64 @@
+diff --git a/Makefile b/Makefile
+index e8f7ae8..0c6be6c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,4 +1,4 @@
+-build::
++build: templates/js/sites_parsed.js
+ 	go run github.com/falling-sky/fsbuilder@latest
+ 	echo 
+ 	echo
+@@ -19,7 +19,7 @@ mtest: build
+ upload:
+ 	cd translations && make crowdin-upload
+ 
+-sites::
++templates/js/sites_parsed.js:
+ 	@echo Validating mirror sites | ./support/fold_start.sh $@
+ 	cd sites && make
+ 
+diff --git a/sites/Makefile b/sites/Makefile
+index 82ff09d..87a9918 100644
+--- a/sites/Makefile
++++ b/sites/Makefile
+@@ -2,16 +2,13 @@
+ # Do we permit publishing to rsync.gigo.com and files.gigo.com?#
+ ################################################################
+ PUBLISH := true
+-ifeq (,$(wildcard ../translations/crowdin.yaml))
+-  PUBLISH := false
+-endif
+ 
+ sites:: FORCE parse-sites
+ ifeq ($(PUBLISH),true)
+ 	@echo checking my hostname
+ 	hostname
+ 	@echo Checking to see what sites are up or down
+-	./parse-sites --minimum 40
++	./parse-sites --minimum 20
+ else
+ 	@echo Skipping sites up/down check
+ endif  
+diff --git a/templates/js/inc/symptoms.js b/templates/js/inc/symptoms.js
+index 0b56db8..d1ed5e4 100644
+--- a/templates/js/inc/symptoms.js
++++ b/templates/js/inc/symptoms.js
+@@ -294,7 +294,7 @@ GIGO.identify_symptoms = function () {
+     // (Otherwise, some Firefox plugin is screwing us again.)
+     if (tests.test_dsmtu.status === "ok") {
+         // Do we want to encourage IPv6?  Or acknowledge IPv6?
+-        if (teredo || sixfour || (!GIGO.results.ipv6.ip)) {
++        if (teredo || (!GIGO.results.ipv6.ip)) {
+           // Encourage the use of IPv6
+           res.push("needs_ipv6");
+         } else {
+@@ -354,9 +354,6 @@ GIGO.identify_symptoms = function () {
+             res.push("teredo");
+         }
+     }
+-    if (sixfour) {
+-        res.push("6to4");
+-    }
+ 
+ 
+     // What about IPv6 only DNS server
